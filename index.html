@@ -1,0 +1,130 @@
+<html>
+
+<head>
+    <title>Simple Map</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <style>
+        /* 
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ */
+        #map {
+            width: 50%;
+            height: 300%;
+            position: relative;
+            left: 20%;
+            margin-top: 150px;
+
+        }
+
+        /* 
+   * Optional: Makes the sample page fill the window. 
+   */
+        html,
+        body {
+            height: 45%;
+            margin: 10px;
+            padding: 0;
+        }
+
+        button {
+            width: 150px;
+            border-radius: 10px;
+            background-color: aquamarine;
+            font-size: 30px;
+            text-align: center;
+            position: relative;
+            left: 20%;
+        }
+
+        #locationinfo {
+            width: 200px;
+            border-radius: 10px;
+            background-color: aquamarine;
+            font-size: 30px;
+            text-align: center;
+            position: relative;
+            left: 40%;
+        }
+
+        table {
+            border: 2px solid red;
+            width: auto;
+            height: auto;
+            text-align: center;
+            font-size: 30PX;
+            position: relative;
+            left: 20%;
+            top: -550px;
+        }
+
+        thead {
+            background-color: aquamarine;
+        }
+
+        td {
+            font-size: 30PX;
+            border: 2px solid red;
+        }
+
+        #timee {
+            width: 500px;
+        }
+    </style>
+</head>
+
+
+<body style="background-color: rgb(175, 14, 78);">
+    <button id="btnm">map</button>
+    <button id="locationinfo">location Info</button>
+    <div id="map"></div>
+    <!-- prettier-ignore -->
+    <script>(g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })
+            ({ key: "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg", v: "weekly" });</script>
+
+    <script>
+        /////////////////////////////////////////////////////////////
+        let map;
+        var btnn = document.getElementById("btnm");
+        var locationinfo = document.getElementById("locationinfo");
+        btnn.addEventListener('click', function () {
+            navigator.geolocation.getCurrentPosition(success, errorr);
+        });
+        function success(loc) {
+            // console.log(loc.);
+            var latitude = loc.coords.latitude;
+            var longitude = loc.coords.longitude;
+            initMap(latitude, longitude);
+            locationinfo.addEventListener('click', function () {
+                var tablee = document.createElement("table");
+                document.body.append(tablee);
+                var thead = document.createElement('thead');
+                var tbody = document.createElement('tbody');
+                thead.innerHTML = " <tr><td>latitude</td><td>longitude</td><td>time</td></tr>"
+                tablee.append(thead);
+                dy = document.createElement('tbody');
+                thead = " <tr><td>latitude</td><td>longitude</td> <td>time</td></tr>"
+                var tr = document.createElement('tr');
+                var timee = new Date(loc.timestamp)
+                tr.innerHTML = '<td>' + latitude.toFixed(7) + '</td><td>' + longitude.toFixed(7) + '</td><td id="timee">' + timee + '</td>'
+                tbody.append(tr);
+                tablee.append(tbody);
+            });
+        }
+        function errorr(e) {
+            document.write("you need to give me permission to get your location")
+        }
+        //go----> google map developers code sample
+        /////////////////////////////////////////////////////////////
+        async function initMap(lat, lon) {
+            const { Map } = await google.maps.importLibrary("maps");
+            map = new Map(document.getElementById("map"), {
+                center: { lat: lat, lng: lon },
+                zoom: 20,
+            });
+        }
+
+    </script>
+</body>
+
+</html>
